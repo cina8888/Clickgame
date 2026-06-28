@@ -1,6 +1,6 @@
 console.log("APP STARTED");
 
-const client = createClient(
+const client = supabase.createClient(
   "https://rseucqlzkmbfaiiwhjws.supabase.co",
   "sb_publishable_pkY5M1d6GlM0qp8b6yJH5g_vfW-REtf"
 );
