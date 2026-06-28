@@ -1,4 +1,4 @@
-const supabase = supabase.createClient(
+const client = client.createClient(
   "https://rseucqlzkmbfaiiwhjws.supabase.co",
   "sb_publishable_pkY5M1d6GlM0qp8b6yJH5g_vfW-REtf"
 );
@@ -15,7 +15,7 @@ document.getElementById("clickBtn").addEventListener("click", async () => {
   document.getElementById("score").innerText = score;
 
   // gửi lên database (simple version)
-  await supabase
+  await client
     .from("scores")
     .upsert({ username: username, score: score });
 
@@ -36,7 +36,7 @@ async function loadLeaderboard() {
 }
 
 // realtime update
-supabase
+client
   .channel("scores")
   .on("postgres_changes", {
     event: "*",
