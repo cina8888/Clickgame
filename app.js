@@ -1,9 +1,11 @@
-const client = client.createClient(
+console.log("APP STARTED");
+
+// đúng cách init Supabase
+const client = supabase.createClient(
   "https://rseucqlzkmbfaiiwhjws.supabase.co",
   "sb_publishable_pkY5M1d6GlM0qp8b6yJH5g_vfW-REtf"
 );
 
-// nhập tên
 let username = prompt("Enter your name:");
 document.getElementById("playerName").innerText = username;
 
@@ -14,7 +16,6 @@ document.getElementById("clickBtn").addEventListener("click", async () => {
   score++;
   document.getElementById("score").innerText = score;
 
-  // gửi lên database (simple version)
   await client
     .from("scores")
     .upsert({ username: username, score: score });
@@ -24,18 +25,21 @@ document.getElementById("clickBtn").addEventListener("click", async () => {
 
 // load leaderboard
 async function loadLeaderboard() {
-  let { data } = await supabase
+  let { data, error } = await client
     .from("scores")
     .select("*")
     .order("score", { ascending: false });
 
+  console.log("DATA:", data);
+  console.log("ERROR:", error);
+
   document.getElementById("leaderboard").innerHTML =
-    data.map((p, i) =>
+    (data || []).map((p, i) =>
       `${i + 1}. ${p.username} - ${p.score}`
     ).join("<br>");
 }
 
-// realtime update
+// realtime
 client
   .channel("scores")
   .on("postgres_changes", {
@@ -47,5 +51,5 @@ client
   })
   .subscribe();
 
-// initial load
+// init
 loadLeaderboard();
