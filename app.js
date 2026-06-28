@@ -1,8 +1,8 @@
 console.log("APP STARTED");
 
 import { createClient } from '@supabase/supabase-js';
-// đúng cách init Supabase
-const client = supabase.createClient(
+
+const client = createClient(
   "https://rseucqlzkmbfaiiwhjws.supabase.co",
   "sb_publishable_pkY5M1d6GlM0qp8b6yJH5g_vfW-REtf"
 );
