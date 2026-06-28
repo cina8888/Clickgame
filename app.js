@@ -52,3 +52,4 @@ client
 
 // init
 loadLeaderboard();
+alert("NEW VERSION LOADED");
